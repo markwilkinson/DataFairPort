@@ -46,7 +46,7 @@ sub handle_requests {
             print "Content-type: text/plain\n\nThe configured basePATH argument $base does not match the request URI  $ENV{'REQUEST_URI'}\n\n";
             exit 0;
         }
-        my $id = $ENV{'PATH_INFO'};
+        my $id = $ENV{'PATH_INFO'} || "";
         $id =~ s/^\///;  # get rid of leading /
         
         if ($id) {  #$ENV{'PATH_INFO'} this is a request like  /Allele/dip21  where the user is asking for a specific individual
