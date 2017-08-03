@@ -266,24 +266,16 @@ sub printResourceHeader {
         my $ETAG = $self->Configuration->ETAG_Base();
 	my $entity = $ENV{'PATH_INFO'};
 	$entity =~ s/^\///;
-#	print "Content-Type: text/turtle\n";
 	print "Content-Type: application/rdf+xml\n";
-	print "ETag: \"$ETAG"."_"."$entity\"\n";
-	print "Allow: GET,OPTIONS,HEAD\n";
-	print 'Link: <http://www.w3.org/ns/ldp#Resource>; rel="type"'."\n\n";
+	print "Allow: GET,OPTIONS,HEAD\n\n";
 
 }
 
 sub printContainerHeader {
 	my ($self) = @_;
         my $ETAG = $self->Configuration->ETAG_Base();
-#	print "Content-Type: text/turtle\n";
 	print "Content-Type: application/rdf+xml\n";
-	print "ETag: \"$ETAG\"\n";
-	print "Allow: GET,OPTIONS,HEAD\n";
-	print 'Link: <http://www.w3.org/ns/ldp#BasicContainer>; rel="type",'."\n";
-	print '      <http://www.w3.org/ns/ldp#Resource>; rel="type"'."\n\n";
-	#    print "Transfer-Encoding: chunked\n\n";
+	print "Allow: GET,OPTIONS,HEAD\n\n";
 
 }
 
@@ -292,10 +284,7 @@ sub manageHEAD {
         my $ETAG = $self->Configuration->ETAG_Base();
 	
 	print "Content-Type: text/turtle\n";
-	print "ETag: \"$ETAG\"\n";
 	print "Allow: GET,OPTIONS,HEAD\n\n";
-	print 'Link: <http://www.w3.org/ns/ldp#BasicContainer>; rel="type",'."\n";
-	print '      <http://www.w3.org/ns/ldp#Resource>; rel="type"'."\n\n";
     
 }
 
