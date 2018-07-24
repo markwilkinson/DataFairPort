@@ -130,7 +130,23 @@ sub ProjectionModel {
     my $SMAP = $prefix . "#SubjectMap$uuid";
     my $POMAP = $prefix . "#POMap$uuid";
     my $OMAP =  $prefix . "#ObjectMap$uuid";
+    my $MAP2 = $prefix . "#Mappings$uuid";
     my $SMAP2 = $prefix . "#SubjectMap2$uuid";
+    
+    my $statement;
+    
+    $statement = $self->makeSensibleStatement($MAP, $self->NS->rdf('type'), $self->NS->rr('TriplesMap'));
+    $model->add_statement($statement);
+    $statement = $self->makeSensibleStatement($SMAP, $self->NS->rdf('type'), $self->NS->rr('SubjectMap'));
+    $model->add_statement($statement);
+    $statement = $self->makeSensibleStatement($POMAP, $self->NS->rdf('type'), $self->NS->rr('predicateObjectMap'));
+    $model->add_statement($statement);
+    $statement = $self->makeSensibleStatement($OMAP, $self->NS->rdf('type'), $self->NS->rr('ObjectMap'));
+    $model->add_statement($statement);
+    $statement = $self->makeSensibleStatement($MAP2, $self->NS->rdf('type'), $self->NS->rr('TriplesMap'));
+    $model->add_statement($statement);
+    $statement = $self->makeSensibleStatement($SMAP2, $self->NS->rdf('type'), $self->NS->rr('SubjectMap'));
+    $model->add_statement($statement);
      
             
    my $statement;
@@ -179,12 +195,17 @@ sub ProjectionModel {
     
     
         #
+        #
         # <OMAP> rr:parentTriplesMap <OBJMAP>
-    $statement = $self->makeSensibleStatement($OMAP, $self->NS->rr('parentTriplesMap'), $SMAP2);
+    $statement = $self->makeSensibleStatement($OMAP, $self->NS->rr('parentTriplesMap'), $MAP2);
+    $model->add_statement($statement);
+    $statement = $self->makeSensibleStatement($MAP2, $self->NS->rr('subjectMap'), $SMAP2);
     $model->add_statement($statement);
         # <OMAP> rr:subjecctMap <SMAP2>
         # <SMAP2>  rr:template "http://somethingelse/{out}
-    if ($self->objecttype =~ /\#string/){
+
+
+if ($self->objecttype =~ /\#string/){
         $templateurl = RDF::Trine::Node::Literal->new("{value}");
     } else {
         $templateurl = RDF::Trine::Node::Literal->new($self->objecttemplate);
